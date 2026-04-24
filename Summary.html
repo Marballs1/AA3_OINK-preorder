@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Summary</title>
+
+  <style>
+    body {
+      font-family: Tahoma;
+      background-color: #f4f4f4;
+    }
+
+    .summaryBox {
+      width: 500px;
+      margin: auto;
+      background: pink;
+      padding: 30px;
+      border-radius: 8px;
+      margin-top: 50px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    
+   button {
+      padding: 10px;
+      width: 100%;
+      margin-top: 5px;
+      background-color: rgb(187, 127, 138);
+      color: rgb(255, 255, 255);
+      font-size: 16px;
+      border: none;
+      border-radius: 3px;
+      transition: all 0.4s ease;
+    }
+
+    button:hover {
+        background-color: rgb(255, 255, 255);
+        color: rgb(216, 155, 155);
+    }
+
+    .total {
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+
+<div class="summaryBox">
+  <h2>Order Summary</h2>
+
+  <p><strong>Customer Name:</strong> <span id="name"></span></p>
+  <p><strong>Product:</strong> <span id="product"></span></p>
+  <p><strong>Quantity:</strong> <span id="quantity"></span></p>
+  <p class="total">Total Amount: PHP <span id="total"></span></p>
+  <p><strong>Pickup Method:</strong> <span id="pickup"></span></p>
+
+  <p id="addressSection" style="display:none;">
+    <strong>Address:</strong> <span id="displayAddress"></span>
+  </p>
+
+  <button onclick="window.location.href='preorder.html'">
+    Place Another Order
+  </button>
+</div>
+
+<script>
+function getCookie(name) {
+  let cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let pair = cookies[i].split("=");
+    if (pair[0].trim() === name) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return "";
+}
+
+
+let name = getCookie("name");
+let product = localStorage.getItem("variant");
+let qty = parseInt(localStorage.getItem("quantity"));
+let pickup = localStorage.getItem("pickup");
+let address = localStorage.getItem("address");
+
+if (product && qty) {
+
+  let price = 0;
+
+  if (product === "50 pcs (PHP 80)") price = 80;
+  else if (product === "80 pcs (PHP 136)") price = 136;
+
+  let total = price * qty;
+
+  document.getElementById("name").innerText = name || "—";
+  document.getElementById("product").innerText = product;
+  document.getElementById("quantity").innerText = qty;
+  document.getElementById("total").innerText = total;
+  document.getElementById("pickup").innerText = pickup;
+
+  if (pickup === "Delivery") {
+    document.getElementById("addressSection").style.display = "block";
+    document.getElementById("displayAddress").innerText = address;
+  }
+}
+</script>
+
+</body>
+</html>
